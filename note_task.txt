@@ -1,0 +1,7 @@
+- adding git repository
+    => DONE
+    => https://github.com/subkikadrawi/karaoke-spleeter-nodejs.git
+- fixing youtube player, no sound when played.
+    => DONE
+- try access local from app karaoke app.
+    => DONE
