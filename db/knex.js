@@ -3,7 +3,7 @@ import knex from 'knex';
 const db = knex({
   client: 'mysql2',
   connection: {
-    host: 'localhost',
+    host: 'host.docker.internal',
     port: 3316,
     user: 'karaokeBilling',
     password: 'karaokeBilling',

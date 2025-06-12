@@ -5,3 +5,20 @@
     => DONE
 - try access local from app karaoke app.
     => DONE
+
+
+docker database
+- docker volume create karaoke-mysql-data
+- docker run -d \
+  --name karaoke-mysql-db \
+  --network karaoke-net \
+  -e MYSQL_ROOT_PASSWORD=karaokeBilling \
+  -e MYSQL_DATABASE=forge \
+  -e MYSQL_USER=karaokeBilling \
+  -e MYSQL_PASSWORD=karaokeBilling \
+  -p 3316:3306 \
+  -v karaoke-mysql-data:/var/lib/mysql \
+  subkikadrawi/karaoke-db:0.1
+
+- docker build -t subkikadrawi/ms-karaoke:01 .   
+- docker run -d -p 5501:5500 --env-file .env subkikadrawi/ms-karaoke:01
