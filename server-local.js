@@ -24,7 +24,7 @@ const s3 = new S3Client({
 const whitelist = [
   'http://localhost:3000',
   'http://localhost:5173',
-  'https://karaoke-reactjs.vercel.app',
+  'http://103.127.138.140:5173',
   // Add more domains as needed
 ];
 
