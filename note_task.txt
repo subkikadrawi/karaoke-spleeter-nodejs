@@ -20,5 +20,10 @@ docker database
   -v karaoke-mysql-data:/var/lib/mysql \
   subkikadrawi/karaoke-db:0.1
 
+MYSQL_ROOT_PASSWORD=karaokeBilling
+MYSQL_DATABASE=forge
+MYSQL_USER=karaokeBilling
+MYSQL_PASSWORD=karaokeBilling
+
 - docker build -t subkikadrawi/ms-karaoke:01 .   
 - docker run -d -p 5501:5500 --env-file .env subkikadrawi/ms-karaoke:01

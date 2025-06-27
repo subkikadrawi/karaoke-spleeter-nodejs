@@ -43,8 +43,16 @@ app.use(cors(corsOptions)); // Use CORS with options
 
 app.get('/musics/indo', async (req, res) => {
 
+  const {title='',size='20', page='1'} = req.query;
+  const offset = (page - 1) * size; // Calculate offset for pagination
+
   // Example: select all from music_tbl
-  const lsMusic = await db('music_tbl').select('*');
+  const lsMusic = await db('music_tbl')
+                        .select('*')
+                        .where('title', 'like', `%${title.toLowerCase()}%`)
+                        .orderBy('id', 'asc')
+                        .offset(offset)
+                        .limit( size === '' ? 20 : size );
 
   try {
     res.status(200).json({
@@ -57,39 +65,7 @@ app.get('/musics/indo', async (req, res) => {
 })
 
 app.get('/musics/indo/:title_music', async (req, res) => {
-  //   const videoPath = path.join(__dirname, req.body.pathUrl);
   const titleMusic = req.params.title_music;
-  // const videoPath = `./indo/${titleMusic}`;
-  // try {
-  //   const stat = fs.statSync(videoPath);
-  //   const fileSize = stat.size;
-  //   const range = req.headers.range;
-
-  //   if (range) {
-  //     const parts = range.replace(/bytes=/, "").split("-");
-  //     const start = parseInt(parts[0], 10);
-  //     const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-  //     const chunkSize = end - start + 1;
-  //     const file = fs.createReadStream(videoPath, { start, end });
-
-  //     res.writeHead(206, {
-  //       "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-  //       "Accept-Ranges": "bytes",
-  //       "Content-Length": chunkSize,
-  //       "Content-Type": "video/mp4",
-  //     });
-
-  //     file.pipe(res);
-  //   } else {
-  //     res.writeHead(200, {
-  //       "Content-Length": fileSize,
-  //       "Content-Type": "video/mp4",
-  //     });
-  //     fs.createReadStream(videoPath).pipe(res);
-  //   }
-  // } catch (err) {
-  //   res.status(404).send('File not found');
-  // }
   const key = `musics/indo/${titleMusic}`; // S3 object key
   const range = req.headers.range;
 
@@ -130,42 +106,8 @@ app.get('/musics/indo/:title_music', async (req, res) => {
 });
 
 app.get('/musics/indo/separated/:title_music/:type_file', async (req, res) => {
-  //   const videoPath = path.join(__dirname, req.body.pathUrl);
   const titleMusic = req.params.title_music;
   const typeFile = req.params.type_file;
-  // const videoPath = `./indo/separated/${titleMusic}/${typeFile}`;
-  // console.log(videoPath);
-
-  // try {
-  //   const stat = fs.statSync(videoPath);
-  //   const fileSize = stat.size;
-  //   const range = req.headers.range;
-
-  //   if (range) {
-  //     const parts = range.replace(/bytes=/, "").split("-");
-  //     const start = parseInt(parts[0], 10);
-  //     const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-  //     const chunkSize = end - start + 1;
-  //     const file = fs.createReadStream(videoPath, { start, end });
-
-  //     res.writeHead(206, {
-  //       "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-  //       "Accept-Ranges": "bytes",
-  //       "Content-Length": chunkSize,
-  //       "Content-Type": "audio/mpeg",
-  //     });
-
-  //     file.pipe(res);
-  //   } else {
-  //     res.writeHead(200, {
-  //       "Content-Length": fileSize,
-  //       "Content-Type": "audio/mpeg",
-  //     });
-  //     fs.createReadStream(videoPath).pipe(res);
-  //   }
-  // } catch (err) {
-  //   res.status(404).send('File not found');
-  // }
   const key = `musics/indo/separated/${titleMusic}/${typeFile}`; // S3 object key
   const range = req.headers.range;
 
